@@ -1,0 +1,99 @@
+#firstpage{
+	margin: 0;
+	padding: 0;
+	height: 100vh;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+}
+
+.card-body{
+  	display: inline-block;
+  	font-family: "arial", sans-serif;
+    border-style: solid;
+    border-width: 5px 5px;
+    border-color: #dfecdf;
+    border-radius: 30px;
+    background-color: #9fc69f;
+    margin: 10px;
+    padding: 20px;
+		width: 248px;
+		height: 90px;
+		color:#fff;
+  }
+
+.float-left{
+  float:left;
+}
+
+.float-right{
+  float:right;
+}
+
+.card-body h3{
+  margin-top:15px;
+  margin-bottom: 5px;
+}
+.activitytime, .count{
+  font-size: 30px;
+  font-weight: 500;
+}
+.card-body p{
+  font-size: 16px;
+  margin-top:0;
+}
+
+.card-body h4{
+  color:#EEEAA4;
+}
+
+
+
+.card-body2{
+  	display: inline-block;
+  	font-family: "arial", sans-serif;
+    border-style: solid;
+    border-width: 5px 5px;
+    border-color: #9fc69f;
+    border-radius: 30px;
+    background-color: #31802D;
+    margin: 10px;
+    padding: 20px;
+		width: 248px;
+		height: 90px;
+		color:#fff;
+  }
+
+  .card-body2 h3{
+    margin-top:15px;
+    margin-bottom: 5px;
+  }
+  .card-body2 p{
+    font-size: 16px;
+    margin-top:0;
+  }
+
+
+  .card-body3{
+    	display: inline-block;
+    	font-family: "arial", sans-serif;
+      border-style: solid;
+      border-width: 5px 5px;
+      border-color: #31802D;
+      border-radius: 30px;
+      background-color: #2E582C;
+      margin: 10px;
+      padding: 20px;
+  		width: 248px;
+  		height: 90px;
+  		color:#fff;
+    }
+
+    .card-body3 h3{
+      margin-top:15px;
+      margin-bottom: 5px;
+    }
+    .card-body3 p{
+      font-size: 16px;
+      margin-top:0;
+    }

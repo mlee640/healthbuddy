@@ -57,12 +57,12 @@ include "config.php";
           		echo 'Good Job, ' . $row['firstName'] . '!' . '<br>';
       		?>
 			<?php
-				$query = "SELECT calories, ROW_NUMBER() over (PARTITION BY 'dateTime' ORDER BY 'dateTime') As num FROM Caloriesp01 Order By num DESC";
+				$query = "SELECT steps FROM DailyStep". $_SESSION['uname'] . " WHERE datetime LIKE '%31/3/2020%'";
 					mysqli_query($db, $query) or die('Error querying database.');
 				$result = mysqli_query($db, $query);
 				$row = mysqli_fetch_array($result);
 				$x = 10000;
-				$z = $x-$row['calories'];
+				$z = $x-$row['steps'];
 
 				echo 'You are ' . $z . ' steps away from your goal steps!'
 			?>
@@ -77,6 +77,32 @@ include "config.php";
 	<section class="sleephour">
 		<br>
   	<head>
+  					<?php
+					$query = "SELECT lightActive FROM Active" . $_SESSION['uname'] . " ORDER BY ID DESC LIMIT 1"; //rem query
+					mysqli_query($db, $query) or die('Error querying database.');
+					$result = mysqli_query($db, $query);
+					$row = mysqli_fetch_array($result); 
+					$lightAct = $row['lightActive'];
+					
+					$query1 = "SELECT moderateActive FROM Active" . $_SESSION['uname'] . "  ORDER BY ID DESC LIMIT 1"; //awake query
+					mysqli_query($db, $query1) or die('Error querying database.');
+					$result1 = mysqli_query($db, $query1);
+					$row1 = mysqli_fetch_array($result1); 
+					$modAct = $row1['moderateActive'];
+					
+					$query2 = "SELECT veryActive FROM Active" . $_SESSION['uname'] . " ORDER BY ID DESC LIMIT 1"; //light query
+					mysqli_query($db, $query2) or die('Error querying database.');
+					$result2 = mysqli_query($db, $query2);
+					$row2 = mysqli_fetch_array($result2); 
+					$veryAct = $row2['veryActive'];
+					
+					$lightP = round($lightAct / ($lightAct + $modAct + $veryAct), 1);
+					$modP = round($modAct /($lightAct + $modAct + $veryAct), 1);
+					$veryP = round($veryAct / ($lightAct + $modAct + $veryAct), 1);
+
+					       
+					       ?>
+					
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script type="text/javascript">
 		google.charts.load('current', {'packages':['corechart']});
@@ -86,9 +112,9 @@ include "config.php";
 
 			var data = google.visualization.arrayToDataTable([
 			['Active Status', 'Minutes'],
-			['Light',     155],
-			['Moderate',      23],
-			['Very',  44],
+			['Light',  Number('<?=$lightP?>')],
+			['Moderate', Number('<?=$modP?>')],
+			['Very',  Number('<?=$veryP?>')],
 			]);
 
 			var options = {
@@ -125,7 +151,7 @@ include "config.php";
 		<div class="container"><img src="images/heart2.png" class="human-heart" alt="human heart" width="100" height="100"/>
 		</div>
 		<div class="top"> 	<?php
-			$query = "SELECT averageBpm, ROW_NUMBER() over (PARTITION BY 'dateTime' ORDER BY 'dateTime') As num FROM DailyHeartp01 Order By num DESC";
+			$query = "SELECT averageBpm, ROW_NUMBER() over (PARTITION BY 'dateTime' ORDER BY 'dateTime') As num FROM DailyHeart" . $_SESSION['uname'] . " Order By num DESC";
 			mysqli_query($db, $query) or die('Error querying database.');
 			$result = mysqli_query($db, $query);
 			$row = mysqli_fetch_array($result);
@@ -134,7 +160,7 @@ include "config.php";
 		</div>
 		</div>
 		<h4>Max Heart Rate: <a><?php
-			$query = "SELECT maxBpm, ROW_NUMBER() over (PARTITION BY 'dateTime' ORDER BY 'dateTime') As num FROM DailyHeartp01 Order By num DESC";
+			$query = "SELECT maxBpm, ROW_NUMBER() over (PARTITION BY 'dateTime' ORDER BY 'dateTime') As num FROM DailyHeart" . $_SESSION['uname'] . " Order By num DESC";
 			mysqli_query($db, $query) or die('Error querying database.');
 			$result = mysqli_query($db, $query);
 			$row = mysqli_fetch_array($result);
@@ -142,7 +168,7 @@ include "config.php";
 			 echo $row['maxBpm']; ?></a></h4>
   
 		<h4>Min Heart Rate: <a><?php
-			$query = "SELECT minBpm, ROW_NUMBER() over (PARTITION BY 'dateTime' ORDER BY 'dateTime') As num FROM DailyHeartp01 Order By num DESC";
+			$query = "SELECT minBpm, ROW_NUMBER() over (PARTITION BY 'dateTime' ORDER BY 'dateTime') As num FROM DailyHeart" . $_SESSION['uname'] . " Order By num DESC";
 			mysqli_query($db, $query) or die('Error querying database.');
 			$result = mysqli_query($db, $query);
 			$row = mysqli_fetch_array($result);
@@ -160,7 +186,7 @@ include "config.php";
 				<div class="calories"><img src="images/calories.png" width="100" height="100"/>
 				</div>
 				<div class="top"> 	<?php
-					$query = "SELECT calories, ROW_NUMBER() over (PARTITION BY 'dateTime' ORDER BY 'dateTime') As num FROM Caloriesp01 Order By num DESC";
+					$query = "SELECT calories, ROW_NUMBER() over (PARTITION BY 'dateTime' ORDER BY 'dateTime') As num FROM Calories" . $_SESSION['uname'] . " Order By num DESC";
 					mysqli_query($db, $query) or die('Error querying database.');
 					$result = mysqli_query($db, $query);
 					$row = mysqli_fetch_array($result);
@@ -181,7 +207,7 @@ include "config.php";
 				<div class="calories"><img src="images/distance.png" width="100" height="100"/>
 				</div>
 				<div class="top"> 	<?php
-					$query = "SELECT distance, ROW_NUMBER() over (PARTITION BY 'dateTime' ORDER BY 'dateTime') As num FROM Distancep01 Order By num DESC";
+					$query = "SELECT distance, ROW_NUMBER() over (PARTITION BY 'dateTime' ORDER BY 'dateTime') As num FROM Distance" . $_SESSION['uname'] . " Order By num DESC";
 					mysqli_query($db, $query) or die('Error querying database.');
 					$result = mysqli_query($db, $query);
 					$row = mysqli_fetch_array($result);
@@ -197,17 +223,46 @@ include "config.php";
 	<div>
 	<section class = "sleepstages">
 		<head>
+			<?php
+					$query = "SELECT remMinutes FROM Sleep" . $_SESSION['uname'] . " ORDER BY id DESC LIMIT 1"; //rem query
+					mysqli_query($db, $query) or die('Error querying database.');
+					$result = mysqli_query($db, $query);
+					$row = mysqli_fetch_array($result); 
+					$rem = $row['remMinutes'];
+					
+					$query1 = "SELECT wakeMinutes FROM Sleep" . $_SESSION['uname'] . "  ORDER BY id DESC LIMIT 1"; //awake query
+					mysqli_query($db, $query1) or die('Error querying database.');
+					$result1 = mysqli_query($db, $query1);
+					$row1 = mysqli_fetch_array($result1); 
+					$wake = $row1['wakeMinutes'];
+					
+					$query2 = "SELECT lightMinutes FROM Sleep" . $_SESSION['uname'] . " ORDER BY id DESC LIMIT 1"; //light query
+					mysqli_query($db, $query2) or die('Error querying database.');
+					$result2 = mysqli_query($db, $query2);
+					$row2 = mysqli_fetch_array($result2); 
+					$light = $row2['lightMinutes'];
+					
+					$query3 = "SELECT deepMinutes FROM Sleep" . $_SESSION['uname'] . " ORDER BY id DESC LIMIT 1"; //deep query
+					mysqli_query($db, $query3) or die('Error querying database.');
+					$result3 = mysqli_query($db, $query3);
+					$row3 = mysqli_fetch_array($result3); 
+					$deep = $row3['deepMinutes'];
+					       
+					       ?>
+					
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script type="text/javascript">
+
+				 
 			google.charts.load("current", {packages:["corechart"]});
 			google.charts.setOnLoadCallback(drawChart);
 			function drawChart() {
 				var data = google.visualization.arrayToDataTable([
 					["Stages", "Minutes", { role: "style" } ],
-					["Awake", 36, "#C0F5B8"],
-					["REM", 67, "#8AD67E"],
-					["Light", 234, "#6EAB65"],
-					["Deep", 44, "#4D7847"]
+					["Awake",Number('<?=$wake?>'), "#C0F5B8"],
+					["REM",'<?=$rem?>', "#8AD67E"],
+					["Light",'<?=$light?>', "#6EAB65"],
+					["Deep",'<?=$deep?>', "#4D7847"]
 				]);
 
 				var view = new google.visualization.DataView(data);

@@ -64,7 +64,7 @@ include "config.php";
 				$x = 10000;
 				$z = $x-$row['steps'];
 
-				if ($z <= 0) {
+				if ($row['steps'] >= 10000) {
 					echo 'You have achieved your goal steps!';
 				} else {
 					echo 'You are ' . $z . ' steps away from your goal steps!';

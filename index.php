@@ -64,7 +64,12 @@ include "config.php";
 				$x = 10000;
 				$z = $x-$row['steps'];
 
-				echo 'You are ' . $z . ' steps away from your goal steps!'
+				if ($z <= 0) {
+					echo 'You have achieved your goal steps!';
+				} else {
+					echo 'You are ' . $z . ' steps away from your goal steps!';
+				}
+
 			?>
     			</h3>
     			<div class="fadein"><img src="images/robot.png" width="160" height="150"/></div>
@@ -95,11 +100,6 @@ include "config.php";
 					$result2 = mysqli_query($db, $query2);
 					$row2 = mysqli_fetch_array($result2); 
 					$veryAct = $row2['veryActive'];
-					
-					$lightP = round($lightAct / ($lightAct + $modAct + $veryAct), 1);
-					$modP = round($modAct /($lightAct + $modAct + $veryAct), 1);
-					$veryP = round($veryAct / ($lightAct + $modAct + $veryAct), 1);
-
 					       
 					       ?>
 					
@@ -112,9 +112,9 @@ include "config.php";
 
 			var data = google.visualization.arrayToDataTable([
 			['Active Status', 'Minutes'],
-			['Light',  Number('<?=$lightP?>')],
-			['Moderate', Number('<?=$modP?>')],
-			['Very',  Number('<?=$veryP?>')],
+			['Light',  Number('<?=$lightAct?>')],
+			['Moderate', Number('<?=$modAct?>')],
+			['Very',  Number('<?=$veryAct?>')],
 			]);
 
 			var options = {
